@@ -19,25 +19,45 @@
     	</div>
 
 	<div class="form-row">
-		<label for="node-input-userauth"><i class="fa fa-key"></i> Authorization</label>
-		<input type="text" id="node-input-userauth">
-	</div>
-
-	<div class="form-row">
         	<label for="node-input-clientid"><i class="fa fa-tablet"></i> Client ID</label>
         	<input type="text" id="node-input-clientid" placeholder="Client ID">
 	</div>
-
-	<div class="form-row">
-        	<label for="node-input-param"><i class="fa fa-file-code-o"></i> Body</label>
-        	<textarea id="node-input-param" style="margin-top:5px;width:95%;height:100px;" placeholder="{ }"></textarea>
-    	</div>
 
     <div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
 </script>
 
 <script type="text/x-red" data-help-name="Outbank-Transfer">
     <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">台幣本行轉帳。</a></p>
+    <p>輸入訊息包含以下屬性：</p>
+    <ul>
+        <li>
+            <code>accesstoken</code> 身分驗證
+        </li>
+        <li><code>payload</code> 訊息<br/>
+            <table>
+              <tr>
+                <th>參數</th>
+                <th>說明</th>
+              </tr>
+              <tr>
+                <td>outward_account</td>
+                <td>轉出帳號</td>
+              </tr>
+              <tr>
+                <td>inward_account</td>
+                <td>轉入帳號</td>
+              </tr>
+              <tr>
+                <td>transfer_amount</td>
+                <td>轉帳金額</td>
+              </tr>
+              <tr>
+                <td>id</td>
+                <td>顧客 ID</td>
+              </tr>
+            </table>
+        </li>
+    </ul>
     <p>輸出訊息包含以下屬性：</p>
     <ul>
         <li><code>payload</code> 訊息<br/>
@@ -79,9 +99,7 @@
         color:"#C0DEED",
         defaults: {
     		clientid: {value:"",required:true},
-		userauth: {value:"",required:true},
-            	name: {value:""},
-		param: {value:"",required:true}
+            	name: {value:""}
         },
         inputs:1,
         outputs:1,

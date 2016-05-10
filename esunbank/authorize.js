@@ -24,7 +24,7 @@ module.exports = function(RED) {
             try { 
                 msg.payload = JSON.parse(msg.payload); 
             } catch(e) { 
-                node.warn(RED._("httpin.errors.json-error")); 
+                node.error(RED._("payload.errors.json-error")); 
             }
             var username = msg.payload.username;
             var password = msg.payload.password;

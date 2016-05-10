@@ -9,16 +9,8 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,n);
 
         var clientid = n.clientid;
-        var req_body = n.param;
-        var accesstoken = n.userauth;
         var url = "https://eospu.esunbank.com.tw/esun/bank/customers/outbank_transfer?client_id="+ clientid;
-        var opts = urllib.parse(url);
-            opts.method = "POST";
-            opts.headers = {
-              "Content-Type": "application/json",
-              "Content-Length": Buffer.byteLength(req_body),
-              "Authorization": "Bearer "+accesstoken
-            };
+        
         this.ret = "txt";
         var node = this;
         var encoding ="utf8";
@@ -27,6 +19,14 @@ module.exports = function(RED) {
         this.on("input",function(msg) {
 
             node.status({fill:"blue",shape:"dot",text:"httpin.status.requesting"});
+            var req_body = msg.payload;
+            var opts = urllib.parse(url);
+            opts.method = "POST";
+            opts.headers = {
+              "Content-Type": "application/json",
+              "Content-Length": Buffer.byteLength(req_body),
+              "Authorization": "Bearer " + msg.accesstoken
+            };
             var req = ((/^https/.test(url))?https:http).request(opts,function(res) {
                 res.setEncoding(encoding);
                 msg.statusCode = res.statusCode;
