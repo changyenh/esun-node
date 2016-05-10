@@ -1,0 +1,33 @@
+{
+    "name"         : "esunbank-hackathon",
+    "version"      : "0.0.1",
+    "description"  : "Get the esunbank API info",
+    "dependencies": {
+        "follow-redirects":"0.0.7"
+    },
+    "keywords": [ "node-red", "esunbank", "hackathon" ],
+    "node-red"     : {
+        "nodes": {
+            "atms": "esunbank/atms.js",
+            "branches": "esunbank/branches.js",
+            "customers": "esunbank/customers.js",
+            "transactions": "esunbank/transactions.js",
+            "loan_score": "esunbank/loan_score.js",
+            "authorize": "esunbank/authorize.js",
+            "payment": "esunbank/payment.js",
+            "foreign_transfer": "esunbank/foreign_transfer.js",
+            "outbank_transfer": "esunbank/outbank_transfer.js",
+            "account_transactions": "esunbank/account_transactions.js",
+            "accounts_balance": "esunbank/accounts_balance.js",
+            "accounts": "esunbank/accounts.js",
+            "announcement": "esunbank/announcement.js",
+            "card_transactions": "esunbank/card_transactions.js",
+            "credit_cards": "esunbank/credit_cards.js",
+            "foreign_accounts_balance": "esunbank/foreign_accounts_balance.js",
+            "gold_account_balance": "esunbank/gold_account_balance.js",
+            "marketrate": "esunbank/marketrate.js",
+            "news_center": "esunbank/news_center.js",
+            "service_statement": "esunbank/service_statement.js"  
+    		}
+    }
+}
