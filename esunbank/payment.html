@@ -1,0 +1,111 @@
+<script type="text/x-red" data-template-name="Payment">
+
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-userauth"><i class="fa fa-key"></i> Authorization</label>
+		<input type="text" id="node-input-userauth">
+	</div>
+
+	<div class="form-row">
+        	<label for="node-input-clientid"><i class="fa fa-tablet"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+        	<label for="node-input-param"><i class="fa fa-file-code-o"></i> Body</label>
+        	<textarea id="node-input-param" style="margin-top:5px;width:95%;height:100px;" placeholder="{ }"></textarea>
+    	</div>
+
+    	<div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Payment">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">繳本行信用卡款。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        	<table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>message</td>
+				<td>查詢結果。</td>
+			  </tr>
+			  <tr>
+				<td>outward_account</td>
+				<td>轉出帳號。</td>
+			  </tr>
+			  <tr>
+				<td>account_balance</td>
+				<td>轉出帳號餘額。</td>
+			  </tr>
+			  <tr>
+				<td>id</td>
+				<td>顧客 ID。</td>
+			  </tr>
+			  <tr>
+				<td>account_name</td>
+				<td>戶名。</td>
+			  </tr>
+			  <tr>
+				<td>payment_amounmt</td>
+				<td>繳款金額。</td>
+			  </tr>
+			  <tr>
+				<td>card_holder_name</td>
+				<td>持卡人戶名。</td>
+			  </tr>
+		</table><br/>
+	</li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Payment',{
+        category: 'ESUN',
+        color:"#C0DEED",
+        defaults: {
+        	clientid: {value:"",required:true},
+		userauth: {value:""},
+            	name: {value:""},
+		param: {value:"",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Payment";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

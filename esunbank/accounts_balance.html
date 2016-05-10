@@ -1,0 +1,108 @@
+<!--
+  Copyright 2013, 2015 IBM Corp.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="Accounts-Balance">
+
+	<div class="form-row">
+        	<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-clientid"><i class="fa fa-globe"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-uid"><i class="fa fa-globe"></i> User ID</label>
+		<input type="text" id="node-input-uid" placeholder="A123456789">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-accountid"><i class="fa fa-globe"></i> Account ID</label>
+		<input type="text" id="node-input-accountid" placeholder="9991969997777">
+	</div>
+
+    	<div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Accounts-Balance">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf">一般帳戶餘額查詢。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>message</td>
+				<td>查詢結果。</td>
+			  </tr>
+			  <tr>
+				<td>account_id</td>
+				<td>帳號。</td>
+			  </tr>
+			  <tr>
+				<td>balance</td>
+				<td>可用餘額。</td>
+			  </tr>
+		</table>
+        </li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Accounts-Balance',{
+        category: 'ESUN',
+        color:"rgb(241, 241, 184)",
+        defaults: {
+        	clientid: {value:"",required:true},
+		uid: {value:"",required:true},
+		accountid: {value:"",required:true},
+            	name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Accounts Balance";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

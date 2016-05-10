@@ -1,0 +1,111 @@
+<script type="text/x-red" data-template-name="Foreign-Transfer">
+
+	<div class="form-row">
+        	<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-userauth"><i class="fa fa-key"></i> Authorization</label>
+		<input type="text" id="node-input-userauth">
+	</div>
+
+	<div class="form-row">
+        	<label for="node-input-clientid"><i class="fa fa-tablet"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+        	<label for="node-input-param"><i class="fa fa-file-code-o"></i> Body</label>
+        	<textarea id="node-input-param" style="margin-top:5px;width:95%;height:100px;" placeholder="{ }"></textarea>
+	</div>
+
+    	<div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Foreign-Transfer">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">外幣轉帳匯款。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        	<table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>message</td>
+				<td>系統回應結果。</td>
+			  </tr>
+			  <tr>
+				<td>branch_id</td>
+				<td>本金轉出／扣款帳號之通知分行代號。</td>
+			  </tr>
+			  <tr>
+				<td>balance</td>
+				<td>本金轉出／扣款帳號餘額（轉出幣別）。</td>
+			  </tr>
+			  <tr>
+				<td>inward_branch_id</td>
+				<td>本金轉入／匯款帳號之通知分行代號。</td>
+			  </tr>
+			  <tr>
+				<td>id</td>
+				<td>申請人原始統一編號。</td>
+			  </tr>
+			  <tr>
+				<td>inward_account_name</td>
+				<td>受款人中文戶名。</td>
+			  </tr>
+			  <tr>
+				<td>transaction_date</td>
+				<td>交易帳務日。</td>
+			  </tr>
+		</table>
+	</li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Foreign-Transfer',{
+        category: 'ESUN',
+        color:"#C0DEED",
+        defaults: {
+            	clientid: {value:"",required:true},
+		userauth: {value:"",required:true},
+        	name: {value:""},
+		param: {value:"",required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Foreign Transfer";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

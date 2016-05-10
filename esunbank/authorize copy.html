@@ -1,0 +1,47 @@
+<script type="text/x-red" data-template-name="Authorize">
+
+<div class="form-row">
+			<label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+			<input type="text" id="node-config-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+        <label for="node-config-input-clientid"><i class="fa fa-tablet"></i> Client ID</label>
+        <input type="text" id="node-config-input-clientid" placeholder="Client ID">
+    </div>
+
+			<div class="form-row">
+		        <label for="node-config-input-clientsecret"><i class="fa fa-key"></i> Client Secret</label>
+		        <input type="password" id="node-config-input-clientsecret" placeholder="Client Secret">
+		    </div>
+
+				<div class="form-row">
+							<label for="node-config-input-username"><i class="fa fa-user"></i> Username</label>
+							<input type="text" id="node-config-input-username" placeholder="Username">
+					</div>
+
+					<div class="form-row">
+								<label for="node-config-input-password"><i class="fa fa-lock"></i> Password</label>
+								<input type="password" id="node-config-input-password" placeholder="Password">
+						</div>
+
+    <div class="form-tips" id="tip">Access token的有效時間為1小時。</div>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('Authorize',{
+        category: 'config',
+        defaults: {
+						name: {value:""},
+						username: {value:"",required:true},
+						password: {value:"",required:true},
+						clientid: {type:"text"},
+						clientsecret: {type: "password"}
+        },
+        label: function() {
+            return this.name||"Authorize";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>

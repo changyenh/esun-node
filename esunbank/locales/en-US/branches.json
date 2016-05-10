@@ -1,0 +1,82 @@
+{
+	    "common": {
+        "label": {
+            "payload": "Payload",
+            "topic": "Topic",
+            "name": "Name",
+            "username": "Username",
+            "password": "Password"
+        },
+        "status": {
+            "connected": "connected",
+            "not-connected": "not connected",
+            "disconnected": "disconnected",
+            "connecting": "connecting",
+            "error": "error",
+            "ok": "OK"
+        }
+        },
+	    "httprequest": {
+        "label": {
+            "param1":"stock id",
+            "method": "Method",
+            "url": "URL",
+            "doc": "Docs",
+            "return": "Return"
+        },
+        "setby": "- set by msg.method -",
+        "basicauth": "Use basic authentication?",
+        "utf8": "a UTF-8 string",
+        "binary": "a binary buffer",
+        "json": "a parsed JSON object",
+        "tip": {
+            "in": "The url will be relative to ",
+            "res": "The messages sent to this node <b>must</b> originate from an <i>http input</i> node",
+            "req": "Tip: If the JSON parse fails the fetched string is returned as-is."
+        },
+        "httpreq": "call API",
+        "errors": {
+            "not-created": "Cannot create http-in node when httpNodeRoot set to false",
+            "missing-path": "missing path",
+            "no-response": "No response object",
+            "json-error": "JSON parse error",
+            "no-url": "No url specified",
+            "deprecated-call":"Deprecated call to __method__"
+        },
+        "status": {
+            "requesting": "requesting"
+        }
+    },
+    "httpin": {
+        "label": {
+            "method": "Method",
+            "url": "URL",
+            "doc": "Docs",
+            "return": "Return"
+        },
+        "setby": "- set by msg.method -",
+        "basicauth": "Use basic authentication?",
+        "utf8": "a UTF-8 string",
+        "binary": "a binary buffer",
+        "json": "a parsed JSON object",
+        "tip": {
+            "in": "The url will be relative to ",
+            "res": "The messages sent to this node <b>must</b> originate from an <i>http input</i> node",
+            "req": "Tip: If the JSON parse fails the fetched string is returned as-is."
+        },
+        "httpreq": "call API",
+        "errors": {
+            "not-created": "Cannot create http-in node when httpNodeRoot set to false",
+            "missing-path": "missing path",
+            "no-response": "No response object",
+            "json-error": "JSON parse error",
+            "no-url": "No url specified",
+            "deprecated-call":"Deprecated call to __method__"
+        },
+        "status": {
+            "requesting": "requesting"
+        }
+    }
+
+	
+}

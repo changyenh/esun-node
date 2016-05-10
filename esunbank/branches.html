@@ -1,0 +1,140 @@
+<!--
+  Copyright 2013, 2015 IBM Corp.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="Branches">
+
+	<div class="form-row">
+        	<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+	 	<label for="node-input-clientid"><i class="fa fa-globe"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+    	<div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Branches">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">查詢分行服務據點。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        	<table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>branches</td>
+				<td>包含多筆分行資料。</td>
+			  </tr>
+			  <tr>
+				<td>branch_id</td>
+				<td>分行代號。</td>
+			  </tr>
+			  <tr>
+				<td>branch_name</td>
+				<td>分行名稱。</td>
+			  </tr>
+			  <tr>
+				<td>branch_city</td>
+				<td>分行所在縣市。</td>
+			  </tr>
+			  <tr>
+				<td>branch_district</td>
+				<td>分行所在鄉鎮市區。</td>
+			  </tr>
+			  <tr>
+				<td>branch_village</td>
+				<td>分行所在里。</td>
+			  </tr>
+			  <tr>
+				<td>branch_mrt</td>
+				<td>分行最近捷運站。</td>
+			  </tr>
+			  <tr>
+				<td>branch_mrt_distance</td>
+				<td>分行與最近捷運站的距離（公里）。</td>
+			  </tr>
+			  <tr>
+				<td>branch_hm_price</td>
+				<td>分行周邊  500  公尺每坪房價（萬元）。</td>
+			  </tr>
+			  <tr>
+				<td>high_count</td>
+				<td>高櫃數。</td>
+			  </tr>
+			  <tr>
+				<td>low_count</td>
+				<td>低櫃數。</td>
+			  </tr>
+			  <tr>
+				<td>customer_count</td>
+				<td>平均來客數分佈。</td>
+			  </tr>
+			  <tr>
+				<td>wait_time</td>
+				<td>平均等候時間分佈。</td>
+			  </tr>
+			  <tr>
+				<td>service_time</td>
+				<td>平均服務時間分佈。</td>
+			  </tr>
+		</table>
+	</li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Branches',{
+        category: 'ESUN',
+        color:"rgb(241, 241, 184)",
+        defaults: {
+            clientid: {value:"",required:true},
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Branch";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

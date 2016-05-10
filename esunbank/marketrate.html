@@ -1,0 +1,141 @@
+<!--
+  Copyright 2013, 2015 IBM Corp.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="Market-Rate">
+
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+    	</div>
+
+    	<div class="form-row">
+        	<label for="node-input-clientid"><i class="fa fa-globe"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-type"><i class="fa fa-globe"></i> Type</label>
+		<input type="text" id="node-input-type" placeholder="LIBOR">
+	</div>
+	<div class="form-row">
+		<label for="node-input-date"><i class="fa fa-globe"></i> Date</label>
+		<input type="text" id="node-input-date" placeholder="YYY-MM-DD HH:mm:ss">
+	</div>
+	<div class="form-row">
+		<label for="node-input-all"><i class="fa fa-globe"></i> All</label>
+		<input type="text" id="node-input-all" placeholder="T">
+	</div>
+	<div class="form-row">
+		<label for="node-input-currency"><i class="fa fa-globe"></i> Currency</label>
+		<input type="text" id="node-input-currency" placeholder="TWD">
+	</div>
+
+    <div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Market-Rate">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">市場利率查詢。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        	<table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>market_interest_rates</td>
+				<td>包含多筆市場利率資料果。</td>
+			  </tr>
+			  <tr>
+				<td>rate_type</td>
+				<td>市場利率名稱。</td>
+			  </tr>
+			  <tr>
+				<td>currency</td>
+				<td>幣別。</td>
+			  </tr>
+			  <tr>
+				<td>name</td>
+				<td>幣別名稱。</td>
+			  </tr>
+			  <tr>
+				<td>update_time</td>
+				<td>報價時間（yyyy-MM-dd HH:mm:ss）。</td>
+			  </tr>
+			  <tr>
+				<td>tenor</td>
+				<td>天期。</td>
+			  </tr>
+			  <tr>
+				<td>rate</td>
+				<td>利率。</td>
+			  </tr>
+			  <tr>
+				<td>bid_rate</td>
+				<td>買價（TPFIUSD、TAIFX3才有BID、ASK之分，其餘種類皆無）。</td>
+			  </tr>
+			  <tr>
+				<td>ask_rate</td>
+				<td>賣價（TPFIUSD、TAIFX3才有BID、ASK之分，其餘種類皆無）。</td>
+			  </tr>
+		</table><br/>
+	</li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Market-Rate',{
+        category: 'ESUN',
+        color:"rgb(241, 241, 184)",
+        defaults: {
+            	clientid: {value:"",required:true},
+            	name: {value:""},
+		type: {value:"",required:true},
+		date: {value:""},
+		all: {value:""},
+		currency: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Market Rate";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

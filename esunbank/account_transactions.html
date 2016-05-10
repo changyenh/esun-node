@@ -1,0 +1,235 @@
+<!--
+  Copyright 2013, 2015 IBM Corp.
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<script type="text/x-red" data-template-name="Account-Transactions">
+
+	<div class="form-row">
+        	<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        	<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+        	<label for="node-input-clientid"><i class="fa fa-globe"></i> Client ID</label>
+		<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+        	<label for="node-input-uid"><i class="fa fa-globe"></i> User ID</label>
+        	<input type="text" id="node-input-uid" placeholder="A123456789">
+	</div>
+
+	<div class="form-row">
+	 	<label for="node-input-accountid"><i class="fa fa-globe"></i> Account ID</label>
+        	<input type="text" id="node-input-accountid" placeholder="99991968209999">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-sdate"><i class="fa fa-globe"></i> Start Date</label>
+        	<input type="text" id="node-input-sdate" placeholder="01040101">
+	 </div>
+
+	<div class="form-row">
+        	<label for="node-input-edate"><i class="fa fa-globe"></i> End Date</label>
+        	<input type="text" id="node-input-edate" placeholder="01040122">
+    	</div>
+
+	<div class="form-row">
+		<label for="node-input-key"><i class="fa fa-globe"></i> Key</label>
+		<input type="text" id="node-input-key">
+	</div>
+
+    <div class="form-tips" id="tip-json" hidden>Tip: If the JSON parse fails the fetched string is returned as-is.</div>
+</script>
+
+<script type="text/x-red" data-help-name="Account-Transactions">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">活期性存款交易明細查詢。</a></p>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        	<table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>message</td>
+				<td>查詢結果。</td>
+			  </tr>
+			  <tr>
+				<td>key</td>
+				<td>下次傳送 KEY 值。</td>
+			  </tr>
+			  <tr>
+				<td>count</td>
+				<td>本次查詢筆數。</td>
+			  </tr>
+			  <tr>
+				<td>details</td>
+				<td>含多筆明細資料。</td>
+			  </tr>
+			  <tr>
+				<td>operation_date</td>
+				<td>交易日（西元年）。</td>
+			  </tr>
+			  <tr>
+				<td>sequence</td>
+				<td>交易日流水號。</td>
+			  </tr>
+			  <tr>
+				<td>transaction_date </td>
+				<td>帳務日（西元年）。</td>
+			  </tr>
+			  <tr>
+				<td>transaction_time </td>
+				<td>交易時間。</td>
+			  </tr>
+			  <tr>
+				<td>cdc </td>
+				<td>借貸別。</td>
+			  </tr>
+			  <tr>
+				<td>amount_sign  </td>
+				<td>交易金額正負號。</td>
+			  </tr>
+			  <tr>
+				<td>amount </td>
+				<td>交易金額。</td>
+			  </tr>
+			  <tr>
+				<td>currency </td>
+				<td>幣別。</td>
+			  </tr>
+			  <tr>
+				<td>balance_sign  </td>
+				<td>帳務日（西元年）。</td>
+			  </tr>
+			  <tr>
+				<td>transaction_date </td>
+				<td>交易後餘額正負號。</td>
+			  </tr>
+			  <tr>
+				<td>balance </td>
+				<td>交易後餘額。</td>
+			  </tr>
+			  <tr>
+				<td>summary </td>
+				<td>摘要。</td>
+			  </tr>
+			  <tr>
+				<td>remark </td>
+				<td>存款人備註。</td>
+			  </tr>
+			  <tr>
+				<td>transation_code </td>
+				<td>交易代號。</td>
+			  </tr>
+			  <tr>
+				<td>branch_id  </td>
+				<td>交易分行。</td>
+			  </tr>
+			  <tr>
+				<td>transation_sequence  </td>
+				<td>帳務日（西元年）。</td>
+			  </tr>
+			  <tr>
+				<td>transaction_date </td>
+				<td>交易序號。</td>
+			  </tr>
+			  <tr>
+				<td>transation_sequence_type </td>
+				<td>交易序號種類。</td>
+			  </tr>
+			  <tr>
+				<td>transation_sequence_type </td>
+				<td>交易序號種類。</td>
+			  </tr>
+			  <tr>
+				<td>fee </td>
+				<td>ATM  手續費。</td>
+			  </tr>
+			  <tr>
+				<td>payee_bank </td>
+				<td>ATM  交易對方銀行別。</td>
+			  </tr>
+			  <tr>
+				<td>payee_account_id </td>
+				<td>ATM  交易對方帳號。</td>
+			  </tr>
+			  <tr>
+				<td>transation_type </td>
+				<td>交易序號種類。</td>
+			  </tr>
+			  <tr>
+				<td>beginning_balance_sign  </td>
+				<td>交易前餘額正負號。</td>
+			  </tr>
+			   <tr>
+				<td>beginning_balance </td>
+				<td>交易前餘額。</td>
+			  </tr>
+			   <tr>
+				<td>account_type </td>
+				<td>帳戶類別。</td>
+			  </tr>
+			</table>
+        </li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Account-Transactions',{
+        category: 'ESUN',
+        color:"rgb(241, 241, 184)",
+        defaults: {
+        	clientid: {value:"",required:true},
+		uid: {value:"",required:true},
+		accountid: {value:"",required:true},
+		sdate: {value:"",required:true},
+		edate: {value:"",required:true},
+            	name: {value:""},
+		key: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"Account Transactions";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>

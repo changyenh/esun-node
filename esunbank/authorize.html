@@ -1,0 +1,112 @@
+<script type="text/x-red" data-template-name="Authorize">
+
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	<div class="form-row">
+        	<label for="node-input-clientid"><i class="fa fa-tablet"></i> Client ID</label>
+        	<input type="text" id="node-input-clientid" placeholder="Client ID">
+    	</div>
+
+	<div class="form-row">
+	        <label for="node-input-clientsecret"><i class="fa fa-key"></i> Client Secret</label>
+	        <input type="password" id="node-input-clientsecret" placeholder="Client Secret">
+	</div>
+
+    <div class="form-tips" id="tip">Access token的有效時間為1小時。</div>
+</script>
+<script type="text/x-red" data-help-name="Authorize">
+    <p><a href="https://github.com/huei59/esunbank-hackathon/blob/master/Hackathon_API.pdf" target="_blank">身分驗證。</a></p>
+    <p>輸入訊息需包含以下屬性</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        <table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>username</td>
+				<td>使用者帳戶</td>
+			  </tr>
+			  <tr>
+				<td>password</td>
+				<td>使用者帳戶密碼</td>
+			  </tr>
+		</table><br/>
+        </li>
+    </ul>
+    <p>輸出訊息包含以下屬性：</p>
+    <ul>
+        <li><code>payload</code> 訊息<br/>
+        <table>
+			  <tr>
+				<th>參數</th>
+				<th>說明</th>
+			  </tr>
+			  <tr>
+				<td>token_type</td>
+				<td>Token的類型。</td>
+			  </tr>
+			  <tr>
+				<td>access_token</td>
+				<td>認證成功後，核發的Access Token。</td>
+			  </tr>
+			  <tr>
+				<td>expires_in</td>
+				<td>Token過期時間，固定為3600秒，表示1小時token將過期無法使用，需透過refresh_token換發或重新傳送請求。</td>
+			  </tr>
+			  <tr>
+				<td>refresh_token</td>
+				<td>可用來換發access_token。</td>
+			  </tr>
+		</table><br/>
+        </li>
+        <li><code>statusCode</code> 狀態碼</li>
+        <li><code>headers</code> 標頭</li>
+    </ul>
+</script>
+<script type="text/javascript">
+    RED.nodes.registerType('Authorize',{
+	category: 'ESUN',
+	color:"#FFAAAA",
+	defaults: {
+		name: {value:""},
+		username: {value:"",required:true},
+		password: {value:"",required:true},
+		clientid: {value:"",required:true},
+		clientsecret: {value:"",required:true}
+	},
+	inputs:1,
+	outputs:1,
+	icon: "white-globe.png",
+        label: function() {
+            return this.name||"Authorize";
+        },
+        labelStyle: function() {
+            return this.name?"node_label_italic":"";
+        },
+	oneditprepare: function() {
+            $("#node-input-ret").change(function() {
+                if ($("#node-input-ret").val() === "obj") {
+                    $("#tip-json").show();
+                } else {
+                    $("#tip-json").hide();
+                }
+            });
+        }
+    });
+</script>
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 95%;
+	}
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+	tr:nth-child(even){background-color: #f2f2f2}
+</style>
